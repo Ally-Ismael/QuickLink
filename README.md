@@ -1,5 +1,5 @@
 ```markdown
-## QuickLink AI - Offline Voice Assistant for Education
+QuickLink AI - Offline Voice Assistant for Education
 An offline AI-powered voice assistant designed to bridge educational gaps in low-connectivity areas through natural language interaction.
 
 🌟 Key Features
