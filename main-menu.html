@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickLink AI - Main Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 400px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #4285f4, #9b72cb);
+            color: white;
+            padding: 24px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .phone-icon {
+            font-size: 32px;
+        }
+        
+        .progress {
+            background: #f5f5f5;
+            padding: 12px 24px;
+        }
+        
+        .progress-text {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #4285f4;
+            width: 75%;
+        }
+        
+        .content {
+            padding: 24px;
+        }
+        
+        .mb-6 {
+            margin-bottom: 24px;
+        }
+        
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+        
+        .text-lg {
+            font-size: 18px;
+        }
+        
+        .text-xl {
+            font-size: 20px;
+        }
+        
+        .font-bold {
+            font-weight: 700;
+        }
+        
+        .text-blue-800 {
+            color: #2c5282;
+        }
+        
+        .bg-blue-50 {
+            background: #ebf8ff;
+        }
+        
+        .border-blue-200 {
+            border-color: #bee3f8;
+        }
+        
+        .rounded-lg {
+            border-radius: 8px;
+        }
+        
+        .border {
+            border: 1px solid;
+        }
+        
+        .p-4 {
+            padding: 16px;
+        }
+        
+        .offline-indicator {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #2b6cb0;
+            margin-top: 8px;
+        }
+        
+        .offline-icon {
+            margin-right: 4px;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .menu-button {
+            padding: 16px;
+            border-radius: 8px;
+            color: white;
+            text-align: center;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .menu-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .menu-button-1 {
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+        }
+        
+        .menu-button-2 {
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+        }
+        
+        .menu-button-3 {
+            background: linear-gradient(90deg, #f97316, #ef4444);
+        }
+        
+        .menu-button-4 {
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            width: 100%;
+            background: #4285f4;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background: #3367d6;
+        }
+        
+        .footer {
+            background: #f7fafc;
+            padding: 16px;
+            text-align: center;
+            font-size: 12px;
+            color: #a0aec0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div>
+                    <h1>QuickLink AI</h1>
+                    <p>USSD Voice Assistant</p>
+                </div>
+                <div class="phone-icon">📞</div>
+            </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress">
+            <div class="progress-text">Step 6 of 8</div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <h2 class="text-xl font-bold text-blue-800 mb-2">
+                    Welcome! 👋
+                </h2>
+                <div class="offline-indicator">
+                    <span class="offline-icon">📵</span>
+                    No internet required • English
+                </div>
+            </div>
+            
+            <h3 class="text-lg font-semibold mb-4">How can I help you learn today?</h3>
+            
+            <div class="menu-grid">
+                <a href="subject-tutoring.html" class="menu-button menu-button-1">
+                    📚 Subject Tutoring
+                </a>
+                <a href="exam-preparation.html" class="menu-button menu-button-2">
+                    🎯 Exam Preparation
+                </a>
+                <a href="career-guidance.html" class="menu-button menu-button-3">
+                    💼 Career Guidance
+                </a>
+                <a href="language-learning.html" class="menu-button menu-button-4">
+                    🗣️ Language Learning
+                </a>
+            </div>
+            
+            <a href="query.html" class="btn">
+                Ask a Question →
+            </a>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            Demo for NVP Presentation • No Internet Required
+        </div>
+    </div>
+</body>
+</html>

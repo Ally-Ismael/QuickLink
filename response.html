@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickLink AI - Response</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 400px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #4285f4, #9b72cb);
+            color: white;
+            padding: 24px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .phone-icon {
+            font-size: 32px;
+        }
+        
+        .progress {
+            background: #f5f5f5;
+            padding: 12px 24px;
+        }
+        
+        .progress-text {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #4285f4;
+            width: 100%;
+        }
+        
+        .content {
+            padding: 24px;
+        }
+        
+        .mb-6 {
+            margin-bottom: 24px;
+        }
+        
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+        
+        .mb-2 {
+            margin-bottom: 8px;
+        }
+        
+        .text-xl {
+            font-size: 20px;
+        }
+        
+        .font-bold {
+            font-weight: 700;
+        }
+        
+        .text-sm {
+            font-size: 14px;
+        }
+        
+        .text-gray-600 {
+            color: #718096;
+        }
+        
+        .query-history {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .query-text {
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            background: #dbeafe;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #3b82f6;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .typing-text {
+            color: #1d4ed8;
+        }
+        
+        .response-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .response-header {
+            display: flex;
+            align-items: center;
+            color: #166534;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .response-text {
+            color: #15803d;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: #4285f4;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3367d6;
+        }
+        
+        .btn-secondary {
+            background: #718096;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #4a5568;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .footer {
+            background: #f7fafc;
+            padding: 16px;
+            text-align: center;
+            font-size: 12px;
+            color: #a0aec0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div>
+                    <h1>QuickLink AI</h1>
+                    <p>USSD Voice Assistant</p>
+                </div>
+                <div class="phone-icon">📞</div>
+            </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress">
+            <div class="progress-text">Step 8 of 8</div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <h2 class="text-xl font-bold mb-4">AI Response</h2>
+            
+            <div class="query-history">
+                <div class="text-sm text-gray-600 mb-2">Your Question:</div>
+                <div class="query-text">What is photosynthesis?</div>
+            </div>
+            
+            <div id="typing-indicator" class="typing-indicator">
+                <div class="spinner"></div>
+                <span class="typing-text">AI is thinking...</span>
+            </div>
+            
+            <div id="ai-response" class="response-box hidden">
+                <div class="response-header">
+                    <span class="mr-2">🔊</span>
+                    AI Response:
+                </div>
+                <p class="response-text">Photosynthesis is the process by which plants use sunlight, water, and carbon dioxide to create oxygen and energy in the form of sugar. This happens in the chloroplasts of plant cells.</p>
+            </div>
+            
+            <div class="action-buttons">
+                <a href="main-menu.html" class="btn btn-primary">
+                    Ask Another Question
+                </a>
+                <a href="dial.html" class="btn btn-secondary">
+                    Start Over
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            Demo for NVP Presentation • No Internet Required
+        </div>
+    </div>
+
+    <script>
+        // Simulate AI response delay
+        setTimeout(() => {
+            document.getElementById('typing-indicator').classList.add('hidden');
+            document.getElementById('ai-response').classList.remove('hidden');
+        }, 2000);
+    </script>
+</body>
+</html>

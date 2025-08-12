@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickLink AI - Phone Type</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 400px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #4285f4, #9b72cb);
+            color: white;
+            padding: 24px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .phone-icon {
+            font-size: 32px;
+        }
+        
+        .progress {
+            background: #f5f5f5;
+            padding: 12px 24px;
+        }
+        
+        .progress-text {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #4285f4;
+            width: 37.5%;
+        }
+        
+        .content {
+            padding: 24px;
+        }
+        
+        .mb-6 {
+            margin-bottom: 24px;
+        }
+        
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+        
+        .text-xl {
+            font-size: 20px;
+        }
+        
+        .font-bold {
+            font-weight: 700;
+        }
+        
+        .space-y-3 > * + * {
+            margin-top: 12px;
+        }
+        
+        .phone-option {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            text-align: left;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .phone-option:hover {
+            border-color: #cbd5e0;
+        }
+        
+        .option-icon {
+            font-size: 24px;
+            margin-right: 12px;
+        }
+        
+        .option-name {
+            flex: 1;
+        }
+        
+        .option-desc {
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        .footer {
+            background: #f7fafc;
+            padding: 16px;
+            text-align: center;
+            font-size: 12px;
+            color: #a0aec0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div>
+                    <h1>QuickLink AI</h1>
+                    <p>USSD Voice Assistant</p>
+                </div>
+                <div class="phone-icon">📞</div>
+            </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress">
+            <div class="progress-text">Step 3 of 8</div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <h2 class="text-xl font-bold mb-4">Select Your Phone Type</h2>
+            <div class="space-y-3 mb-6">
+                <a href="user-check.html?phone=basic" class="phone-option">
+                    <span class="option-icon">📞</span>
+                    <div class="option-name">
+                        <div class="font-medium">Basic Phone (Voice Only)</div>
+                        <div class="option-desc">Voice interaction only</div>
+                    </div>
+                </a>
+                <a href="user-check.html?phone=smart" class="phone-option">
+                    <span class="option-icon">📱</span>
+                    <div class="option-name">
+                        <div class="font-medium">Smartphone (Text + Voice)</div>
+                        <div class="option-desc">Text and voice options</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            Demo for NVP Presentation • No Internet Required
+        </div>
+    </div>
+</body>
+</html>

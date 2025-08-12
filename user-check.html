@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickLink AI - User Check</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 400px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #4285f4, #9b72cb);
+            color: white;
+            padding: 24px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .phone-icon {
+            font-size: 32px;
+        }
+        
+        .progress {
+            background: #f5f5f5;
+            padding: 12px 24px;
+        }
+        
+        .progress-text {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #4285f4;
+            width: 50%;
+        }
+        
+        .content {
+            padding: 24px;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mb-6 {
+            margin-bottom: 24px;
+        }
+        
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+        
+        .text-xl {
+            font-size: 20px;
+        }
+        
+        .font-bold {
+            font-weight: 700;
+        }
+        
+        .text-gray-600 {
+            color: #718096;
+        }
+        
+        .text-blue-600 {
+            color: #4285f4;
+        }
+        
+        .user-icon {
+            font-size: 64px;
+            color: #4285f4;
+            margin-bottom: 16px;
+        }
+        
+        .user-options {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 24px 0;
+        }
+        
+        .user-option {
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            text-align: center;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: inherit;
+            font-weight: 500;
+        }
+        
+        .user-option:hover {
+            border-color: #cbd5e0;
+            background: #f8fafc;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            width: 100%;
+            background: #4285f4;
+            color: white;
+            margin-top: 20px;
+        }
+        
+        .btn:hover {
+            background: #3367d6;
+        }
+        
+        .footer {
+            background: #f7fafc;
+            padding: 16px;
+            text-align: center;
+            font-size: 12px;
+            color: #a0aec0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div>
+                    <h1>QuickLink AI</h1>
+                    <p>USSD Voice Assistant</p>
+                </div>
+                <div class="phone-icon">📞</div>
+            </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress">
+            <div class="progress-text">Step 4 of 8</div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="text-center">
+                <div class="user-icon">👤</div>
+                <h2 class="text-xl font-bold mb-4">User Account Check</h2>
+                <p class="text-gray-600 mb-6">Checking if you're a new or returning user...</p>
+                <div class="user-options">
+                    <a href="registration.html" class="user-option">
+                        New User (First time using QuickLink AI)
+                    </a>
+                    <a href="main-menu.html" class="user-option">
+                        Returning User (I have an account)
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            Demo for NVP Presentation • No Internet Required
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickLink AI Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 400px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #4285f4, #9b72cb);
+            color: white;
+            padding: 24px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .phone-icon {
+            font-size: 32px;
+        }
+        
+        .progress {
+            background: #f5f5f5;
+            padding: 12px 24px;
+        }
+        
+        .progress-text {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #4285f4;
+            transition: width 0.3s ease;
+        }
+        
+        .content {
+            padding: 24px;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mb-6 {
+            margin-bottom: 24px;
+        }
+        
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+        
+        .mb-2 {
+            margin-bottom: 8px;
+        }
+        
+        .text-2xl {
+            font-size: 24px;
+        }
+        
+        .text-xl {
+            font-size: 20px;
+        }
+        
+        .font-bold {
+            font-weight: 700;
+        }
+        
+        .font-medium {
+            font-weight: 500;
+        }
+        
+        .text-gray-600 {
+            color: #718096;
+        }
+        
+        .text-blue-600 {
+            color: #4285f4;
+        }
+        
+        .phone-display {
+            background: #f7fafc;
+            border: 2px dashed #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: #4285f4;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3367d6;
+        }
+        
+        .btn:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+        }
+        
+        .space-y-3 > * + * {
+            margin-top: 12px;
+        }
+        
+        .language-option, .phone-option {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            text-align: left;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        
+        .language-option:hover, .phone-option:hover {
+            border-color: #cbd5e0;
+        }
+        
+        .language-option.selected, .phone-option.selected {
+            border-color: #4285f4;
+            background: #eff6ff;
+        }
+        
+        .option-icon {
+            font-size: 24px;
+            margin-right: 12px;
+        }
+        
+        .option-name {
+            flex: 1;
+        }
+        
+        .option-check {
+            color: #4285f4;
+            font-weight: 700;
+        }
+        
+        .user-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .user-option {
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            text-align: center;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .user-option:hover {
+            border-color: #cbd5e0;
+        }
+        
+        .user-option.selected {
+            border-color: #4285f4;
+            background: #eff6ff;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #4285f4;
+            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+        }
+        
+        .feature-box {
+            background: #f0fff4;
+            border: 1px solid #c6f6d5;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+        
+        .feature-title {
+            color: #2f855a;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .feature-list {
+            font-size: 14px;
+            color: #38a169;
+            padding-left: 20px;
+        }
+        
+        .feature-list li {
+            margin-bottom: 4px;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .menu-button {
+            padding: 16px;
+            border-radius: 8px;
+            color: white;
+            text-align: center;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .menu-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .menu-button-1 {
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+        }
+        
+        .menu-button-2 {
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+        }
+        
+        .menu-button-3 {
+            background: linear-gradient(90deg, #f97316, #ef4444);
+        }
+        
+        .menu-button-4 {
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+        }
+        
+        .voice-warning {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .voice-warning-header {
+            display: flex;
+            align-items: center;
+            color: #d97706;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .voice-warning-text {
+            font-size: 14px;
+            color: #ca8a04;
+        }
+        
+        .input-mode {
+            display: flex;
+            gap: 8px;
+            margin: 16px 0;
+        }
+        
+        .input-mode-btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .input-mode-btn.active {
+            background: #dbeafe;
+            border-color: #3b82f6;
+            color: #1d4ed8;
+        }
+        
+        .input-mode-icon {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        
+        .input-mode-text {
+            font-size: 12px;
+        }
+        
+        .response-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .response-header {
+            display: flex;
+            align-items: center;
+            color: #166534;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .response-text {
+            color: #15803d;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .btn-secondary {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            background: #718096;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #4a5568;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            background: #dbeafe;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #3b82f6;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .typing-text {
+            color: #1d4ed8;
+        }
+        
+        .footer {
+            background: #f7fafc;
+            padding: 16px;
+            text-align: center;
+            font-size: 12px;
+            color: #a0aec0;
+        }
+        
+        .offline-indicator {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #2b6cb0;
+            margin-top: 8px;
+        }
+        
+        .offline-icon {
+            margin-right: 4px;
+        }
+        
+        .sample-queries {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-top: 8px;
+        }
+        
+        .query-history {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .query-text {
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div>
+                    <h1>QuickLink AI</h1>
+                    <p>USSD Voice Assistant</p>
+                </div>
+                <div class="phone-icon">📞</div>
+            </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress">
+            <div class="progress-text">Step <span id="step-number">1</span> of 8</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 12.5%"></div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Step 1: Dial -->
+            <div id="step-dial" class="step active">
+                <div class="text-center mb-6">
+                    <div class="mb-6">
+                        <div class="phone-icon text-4xl mb-4">📞</div>
+                        <h2 class="text-2xl font-bold mb-2">QuickLink AI Access</h2>
+                        <p class="text-gray-600">Dial *542# to start</p>
+                    </div>
+                    <div class="phone-display">
+                        <div class="font-mono text-lg">*542#</div>
+                    </div>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Connect →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Language Selection -->
+            <div id="step-language" class="step hidden">
+                <h2 class="text-xl font-bold mb-4">Select Your Language</h2>
+                <div class="space-y-3 mb-6">
+                    <div class="language-option" onclick="selectLanguage('EN')">
+                        <span class="option-icon">🇺🇸</span>
+                        <span class="option-name">English</span>
+                        <span class="option-check" id="check-EN"></span>
+                    </div>
+                    <div class="language-option" onclick="selectLanguage('AF')">
+                        <span class="option-icon">🇿🇦</span>
+                        <span class="option-name">Afrikaans</span>
+                        <span class="option-check" id="check-AF"></span>
+                    </div>
+                    <div class="language-option" onclick="selectLanguage('OW')">
+                        <span class="option-icon">🇳🇦</span>
+                        <span class="option-name">Oshiwambo</span>
+                        <span class="option-check" id="check-OW"></span>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="language-continue" disabled onclick="nextStep()">
+                    Continue
+                </button>
+            </div>
+
+            <!-- Step 3: Phone Type -->
+            <div id="step-phoneType" class="step hidden">
+                <h2 class="text-xl font-bold mb-4">Select Your Phone Type</h2>
+                <div class="space-y-3 mb-6">
+                    <div class="phone-option" onclick="selectPhoneType('basic')">
+                        <span class="option-icon">📞</span>
+                        <div class="option-name">
+                            <div class="font-medium">Basic Phone (Voice Only)</div>
+                            <div class="text-sm text-gray-600">Voice interaction only</div>
+                        </div>
+                        <span class="option-check" id="check-phone-basic"></span>
+                    </div>
+                    <div class="phone-option" onclick="selectPhoneType('smart')">
+                        <span class="option-icon">📱</span>
+                        <div class="option-name">
+                            <div class="font-medium">Smartphone (Text + Voice)</div>
+                            <div class="text-sm text-gray-600">Text and voice options</div>
+                        </div>
+                        <span class="option-check" id="check-phone-smart"></span>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="phone-continue" disabled onclick="nextStep()">
+                    Continue
+                </button>
+            </div>
+
+            <!-- Step 4: User Check -->
+            <div id="step-userCheck" class="step hidden">
+                <div class="text-center">
+                    <div class="phone-icon text-4xl text-blue-600 mb-4">👤</div>
+                    <h2 class="text-xl font-bold mb-4">User Account Check</h2>
+                    <p class="text-gray-600 mb-6">Checking if you're a new or returning user...</p>
+                    <div class="user-options mb-6">
+                        <div class="user-option" onclick="selectUserType(true)">
+                            New User (First time using QuickLink AI)
+                        </div>
+                        <div class="user-option" onclick="selectUserType(false)">
+                            Returning User (I have an account)
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Continue
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 5: Registration -->
+            <div id="step-registration" class="step hidden">
+                <h2 class="text-xl font-bold mb-4">Welcome! Let's Set Up Your Account</h2>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        What's your name?
+                    </label>
+                    <input
+                        type="text"
+                        id="user-name"
+                        placeholder="Enter your full name"
+                        class="input-field"
+                        oninput="checkRegistration()"
+                    />
+                </div>
+                <div class="feature-box">
+                    <h3 class="feature-title">Account Features:</h3>
+                    <ul class="feature-list">
+                        <li>90-day conversation history</li>
+                        <li>Personalized learning recommendations</li>
+                        <li>Multiple language support</li>
+                        <li>Progress tracking</li>
+                    </ul>
+                </div>
+                <button class="btn btn-primary" id="register-btn" disabled onclick="nextStep()">
+                    Create Account
+                </button>
+            </div>
+
+            <!-- Step 6: Main Menu -->
+            <div id="step-mainMenu" class="step hidden">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <h2 class="text-xl font-bold text-blue-800 mb-2">
+                        Welcome<span id="user-greeting"></span>! 👋
+                    </h2>
+                    <div class="offline-indicator">
+                        <span class="offline-icon">📵</span>
+                        No internet required • <span id="selected-language">English</span>
+                    </div>
+                </div>
+                
+                <h3 class="text-lg font-semibold mb-4">How can I help you learn today?</h3>
+                
+                <div class="menu-grid">
+                    <div class="menu-button menu-button-1">
+                        📚 Subject Tutoring
+                    </div>
+                    <div class="menu-button menu-button-2">
+                        🎯 Exam Preparation
+                    </div>
+                    <div class="menu-button menu-button-3">
+                        💼 Career Guidance
+                    </div>
+                    <div class="menu-button menu-button-4">
+                        🗣️ Language Learning
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="nextStep()">
+                    Ask a Question →
+                </button>
+            </div>
+
+            <!-- Step 7: Query -->
+            <div id="step-query" class="step hidden">
+                <h2 class="text-xl font-bold mb-4">Ask a Question</h2>
+                
+                <div id="voice-warning" class="voice-warning">
+                    <div class="voice-warning-header">
+                        <span class="mr-2">🔊</span>
+                        Voice Mode Active
+                    </div>
+                    <p class="voice-warning-text">Speak your question clearly after the beep</p>
+                </div>
+                
+                <div class="input-mode">
+                    <div class="input-mode-btn" id="mode-type" onclick="setInputMode('type')">
+                        <div class="input-mode-icon">⌨️</div>
+                        <div class="input-mode-text">Text</div>
+                    </div>
+                    <div class="input-mode-btn active" id="mode-voice" onclick="setInputMode('voice')">
+                        <div class="input-mode-icon">🎤</div>
+                        <div class="input-mode-text">Voice</div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <span id="input-label">Select a sample question...</span>
+                    </label>
+                    
+                    <div id="text-input" class="hidden">
+                        <textarea
+                            id="custom-query"
+                            placeholder="Type your question:"
+                            rows="3"
+                            class="input-field"
+                            oninput="checkQuery()"
+                        ></textarea>
+                    </div>
+                    
+                    <div id="voice-input">
+                        <select
+                            id="sample-queries"
+                            class="sample-queries"
+                            onchange="selectSampleQuery()"
+                        >
+                            <option value="">Select a sample question...</option>
+                            <option value="What is photosynthesis?">What is photosynthesis?</option>
+                            <option value="How do I calculate the area of a circle?">How do I calculate the area of a circle?</option>
+                            <option value="What career options are available in engineering?">What career options are available in engineering?</option>
+                            <option value="Explain Newton's first law of motion">Explain Newton's first law of motion</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" id="submit-query" disabled onclick="nextStep()">
+                    Submit Question
+                </button>
+            </div>
+
+            <!-- Step 8: Response -->
+            <div id="step-response" class="step hidden">
+                <h2 class="text-xl font-bold mb-4">AI Response</h2>
+                
+                <div class="query-history">
+                    <div class="text-sm text-gray-600 mb-2">Your Question:</div>
+                    <div class="query-text" id="displayed-query"></div>
+                </div>
+                
+                <div id="typing-indicator" class="typing-indicator">
+                    <div class="spinner"></div>
+                    <span class="typing-text">AI is thinking...</span>
+                </div>
+                
+                <div id="ai-response" class="response-box hidden">
+                    <div class="response-header">
+                        <span class="mr-2">🔊</span>
+                        AI Response:
+                    </div>
+                    <p class="response-text" id="response-text"></p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="askAnother()">
+                        Ask Another Question
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetDemo()">
+                        Start Over
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            Demo for NVP Presentation • No Internet Required
+        </div>
+    </div>
+
+    <script>
+        // Demo state
+        let currentState = {
+            step: 'dial',
+            selectedLanguage: '',
+            phoneType: '',
+            isNewUser: true,
+            userName: '',
+            currentQuery: '',
+            customQuery: '',
+            inputMode: 'voice'
+        };
+        
+        // DOM elements
+        const steps = [
+            'dial', 'language', 'phoneType', 'userCheck', 
+            'registration', 'mainMenu', 'query', 'response'
+        ];
+        
+        // Sample responses
+        const responses = {
+            "What is photosynthesis?": "Photosynthesis is the process by which plants use sunlight, water, and carbon dioxide to create oxygen and energy in the form of sugar. This happens in the chloroplasts of plant cells.",
+            "How do I calculate the area of a circle?": "To calculate the area of a circle, use the formula A = π × r², where 'r' is the radius. For example, if the radius is 5 units, the area would be π × 5² = 25π square units.",
+            "What career options are available in engineering?": "Engineering offers many career paths including Civil Engineering (buildings, roads), Electrical Engineering (power systems), Mechanical Engineering (machines), and Software Engineering (computer programs).",
+            "Explain Newton's first law of motion": "Newton's First Law states that an object at rest stays at rest, and an object in motion stays in motion, unless acted upon by an external force. This is also called the law of inertia."
+        };
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUI();
+        });
+        
+        // Navigation functions
+        function nextStep() {
+            const currentIndex = steps.indexOf(currentState.step);
+            if (currentIndex < steps.length - 1) {
+                currentState.step = steps[currentIndex + 1];
+                updateUI();
+            }
+        }
+        
+        function previousStep() {
+            const currentIndex = steps.indexOf(currentState.step);
+            if (currentIndex > 0) {
+                currentState.step = steps[currentIndex - 1];
+                updateUI();
+            }
+        }
+        
+        // State update functions
+        function selectLanguage(lang) {
+            currentState.selectedLanguage = lang;
+            document.querySelectorAll('.language-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            document.querySelectorAll('.option-check').forEach(el => {
+                el.textContent = '';
+            });
+            document.getElementById(`check-${lang}`).textContent = '✓';
+            document.getElementById('language-continue').disabled = false;
+        }
+        
+        function selectPhoneType(type) {
+            currentState.phoneType = type;
+            document.querySelectorAll('.phone-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            document.querySelectorAll('.option-check').forEach(el => {
+                el.textContent = '';
+            });
+            document.getElementById(`check-phone-${type}`).textContent = '✓';
+            document.getElementById('phone-continue').disabled = false;
+            
+            // Update voice warning visibility
+            const voiceWarning = document.getElementById('voice-warning');
+            if (type === 'basic') {
+                voiceWarning.classList.remove('hidden');
+            } else {
+                voiceWarning.classList.add('hidden');
+            }
+        }
+        
+        function selectUserType(isNew) {
+            currentState.isNewUser = isNew;
+            document.querySelectorAll('.user-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+        }
+        
+        function checkRegistration() {
+            const name = document.getElementById('user-name').value.trim();
+            document.getElementById('register-btn').disabled = !name;
+        }
+        
+        function setInputMode(mode) {
+            currentState.inputMode = mode;
+            
+            // Update UI
+            document.getElementById('mode-type').classList.toggle('active', mode === 'type');
+            document.getElementById('mode-voice').classList.toggle('active', mode === 'voice');
+            
+            // Show/hide inputs
+            document.getElementById('text-input').classList.toggle('hidden', mode !== 'type');
+            document.getElementById('voice-input').classList.toggle('hidden', mode !== 'voice');
+            
+            // Update label
+            const label = document.getElementById('input-label');
+            if (mode === 'type') {
+                label.textContent = 'Type your question:';
+            } else {
+                label.textContent = currentState.phoneType === 'basic' ? 'Simulated Voice Input:' : 'Select a sample question...';
+            }
+            
+            checkQuery();
+        }
+        
+        function selectSampleQuery() {
+            currentState.currentQuery = document.getElementById('sample-queries').value;
+            checkQuery();
+        }
+        
+        function checkQuery() {
+            const isValid = currentState.inputMode === 'type' ? 
+                document.getElementById('custom-query').value.trim() : 
+                document.getElementById('sample-queries').value;
+            document.getElementById('submit-query').disabled = !isValid;
+        }
+        
+        function askAnother() {
+            currentState.step = 'mainMenu';
+            currentState.currentQuery = '';
+            currentState.customQuery = '';
+            document.getElementById('sample-queries').value = '';
+            document.getElementById('custom-query').value = '';
+            updateUI();
+        }
+        
+        function resetDemo() {
+            currentState = {
+                step: 'dial',
+                selectedLanguage: '',
+                phoneType: '',
+                isNewUser: true,
+                userName: '',
+                currentQuery: '',
+                customQuery: '',
+                inputMode: 'voice'
+            };
+            document.querySelectorAll('.language-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            document.querySelectorAll('.phone-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            document.querySelectorAll('.user-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            document.querySelectorAll('.option-check').forEach(el => {
+                el.textContent = '';
+            });
+            document.getElementById('user-name').value = '';
+            document.getElementById('sample-queries').value = '';
+            document.getElementById('custom-query').value = '';
+            document.getElementById('language-continue').disabled = true;
+            document.getElementById('phone-continue').disabled = true;
+            document.getElementById('register-btn').disabled = true;
+            document.getElementById('submit-query').disabled = true;
+            updateUI();
+        }
+        
+        // UI Update function
+        function updateUI() {
+            // Hide all steps
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.add('hidden');
+                step.classList.remove('active');
+            });
+            
+            // Show current step
+            document.getElementById(`step-${currentState.step}`).classList.remove('hidden');
+            document.getElementById(`step-${currentState.step}`).classList.add('active');
+            
+            // Update progress
+            const currentIndex = steps.indexOf(currentState.step);
+            const stepNumber = currentIndex + 1;
+            document.getElementById('step-number').textContent = stepNumber;
+            document.getElementById('progress-fill').style.width = `${(stepNumber / 8) * 100}%`;
+            
+            // Update specific step UI
+            switch(currentState.step) {
+                case 'registration':
+                    if (currentState.userName) {
+                        document.getElementById('user-name').value = currentState.userName;
+                    }
+                    break;
+                    
+                case 'mainMenu':
+                    const greeting = document.getElementById('user-greeting');
+                    if (currentState.userName) {
+                        greeting.textContent = `, ${currentState.userName}`;
+                    } else {
+                        greeting.textContent = '';
+                    }
+                    
+                    // Update language display
+                    const langNames = {
+                        'EN': 'English',
+                        'AF': 'Afrikaans',
+                        'OW': 'Oshiwambo'
+                    };
+                    document.getElementById('selected-language').textContent = 
+                        langNames[currentState.selectedLanguage] || 'English';
+                    break;
+                    
+                case 'query':
+                    // Update input mode UI
+                    setInputMode(currentState.inputMode);
+                    break;
+                    
+                case 'response':
+                    // Show typing indicator
+                    document.getElementById('typing-indicator').classList.remove('hidden');
+                    document.getElementById('ai-response').classList.add('hidden');
+                    
+                    // Display query
+                    const queryToDisplay = currentState.inputMode === 'type' ? 
+                        document.getElementById('custom-query').value : 
+                        document.getElementById('sample-queries').value;
+                    document.getElementById('displayed-query').textContent = queryToDisplay;
+                    
+                    // Generate response after delay
+                    setTimeout(() => {
+                        const response = responses[queryToDisplay] || 
+                            "Thank you for your question. I'm here to help with educational topics. Could you please rephrase your question?";
+                        document.getElementById('response-text').textContent = response;
+                        document.getElementById('typing-indicator').classList.add('hidden');
+                        document.getElementById('ai-response').classList.remove('hidden');
+                    }, 2000);
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
