@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuickLink AI - Multi-Page Demo</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#764ba2">
     <style>
         * {
             margin: 0;
@@ -431,6 +433,15 @@
         .hidden {
             display: none;
         }
+        .offline-toast {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: #065f46;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
     </style>
 </head>
 <body>
@@ -469,6 +480,9 @@
                     </div>
                     <button class="btn" onclick="nextPage('language')">
                         Connect →
+                    </button>
+                    <button class="btn" style="margin-top: 8px; background: #10b981;" onclick="quickDemo()">
+                        Skip setup →
                     </button>
                 </div>
             </div>
@@ -701,7 +715,8 @@
 
         <!-- Footer -->
         <div class="footer">
-            Demo for NVP Presentation • No Internet Required
+            Demo for NVP Presentation • No Internet Required • Questions: <span id="question-count">0</span>
+            <div id="offline-toast" class="offline-toast hidden">Offline ready ✓</div>
         </div>
     </div>
 
@@ -715,7 +730,8 @@
             userName: '',
             currentQuery: '',
             customQuery: '',
-            inputMode: 'voice'
+            inputMode: 'voice',
+            ttsEnabled: false
         };
         
         const pages = ['dial', 'language', 'phoneType', 'userCheck', 'registration', 'mainMenu', 'query', 'response'];
@@ -730,6 +746,7 @@
         
         // Navigation functions
         function nextPage(page) {
+            try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch(e) {}
             const currentIndex = pages.indexOf(currentState.currentPage);
             const nextIndex = pages.indexOf(page);
             
@@ -860,6 +877,7 @@
             }
             
             checkQuery();
+            if (mode === 'voice') { playBeep(); }
         }
         
         function checkQuery() {
@@ -880,6 +898,9 @@
             document.getElementById('typing-indicator').classList.remove('hidden');
             document.getElementById('ai-response').classList.add('hidden');
             
+            // Telemetry: increment local question count
+            incrementQuestionCount();
+            
             // Generate response after delay
             setTimeout(() => {
                 const response = responses[queryToDisplay] || 
@@ -887,6 +908,11 @@
                 document.getElementById('response-text').textContent = response;
                 document.getElementById('typing-indicator').classList.add('hidden');
                 document.getElementById('ai-response').classList.remove('hidden');
+                
+                // Optional TTS
+                if (currentState.ttsEnabled) {
+                    speakText(response);
+                }
             }, 2000);
         }
         
@@ -899,7 +925,8 @@
                 userName: '',
                 currentQuery: '',
                 customQuery: '',
-                inputMode: 'voice'
+                inputMode: 'voice',
+                ttsEnabled: false
             };
             
             // Reset UI
@@ -934,7 +961,85 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             updateProgress(1);
+            // Load and show question count
+            const savedCount = parseInt(localStorage.getItem('ql_question_count') || '0', 10);
+            const qc = document.getElementById('question-count');
+            if (qc) qc.textContent = savedCount;
+            
+            // Register service worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('service-worker.js').then((reg) => {
+                    const showReady = () => {
+                        const toast = document.getElementById('offline-toast');
+                        if (!toast) return;
+                        toast.classList.remove('hidden');
+                        setTimeout(() => toast.classList.add('hidden'), 2500);
+                    };
+                    if (reg.installing) {
+                        reg.installing.addEventListener('statechange', (e) => {
+                            if (e.target.state === 'activated') showReady();
+                        });
+                    } else if (reg.active) {
+                        showReady();
+                    }
+                }).catch(() => {});
+            }
         });
+        
+        // Quick demo path: set defaults and jump to query
+        function quickDemo() {
+            currentState.selectedLanguage = 'EN';
+            currentState.phoneType = 'smart';
+            currentState.isNewUser = false;
+            currentState.inputMode = 'voice';
+            try { document.getElementById('voice-warning').classList.add('hidden'); } catch(e) {}
+            nextPage('query');
+        }
+        
+        // Web Speech API TTS toggle and speak
+        function toggleTTS(enabled) {
+            currentState.ttsEnabled = enabled;
+            try { if (!enabled && window.speechSynthesis) window.speechSynthesis.cancel(); } catch(e) {}
+        }
+        
+        function speakText(text) {
+            try {
+                if (!('speechSynthesis' in window)) return;
+                const utter = new SpeechSynthesisUtterance(text);
+                const langMap = { EN: 'en-US', AF: 'af-ZA', OW: 'en-US' };
+                utter.lang = langMap[currentState.selectedLanguage] || 'en-US';
+                window.speechSynthesis.speak(utter);
+            } catch (e) {}
+        }
+        
+        // Simple beep using Web Audio API
+        let audioCtx = null;
+        function playBeep(frequency = 880, durationMs = 120) {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                oscillator.connect(gain);
+                gain.connect(audioCtx.destination);
+                oscillator.frequency.value = frequency;
+                gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.2, audioCtx.currentTime + 0.01);
+                oscillator.start();
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + durationMs / 1000);
+                oscillator.stop(audioCtx.currentTime + durationMs / 1000 + 0.02);
+            } catch (e) {}
+        }
+        
+        // Local telemetry helpers
+        function incrementQuestionCount() {
+            try {
+                const key = 'ql_question_count';
+                const next = (parseInt(localStorage.getItem(key) || '0', 10) + 1);
+                localStorage.setItem(key, String(next));
+                const qc = document.getElementById('question-count');
+                if (qc) qc.textContent = next;
+            } catch (e) {}
+        }
     </script>
 </body>
 </html>
