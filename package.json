@@ -1,0 +1,24 @@
+{
+  "name": "quicklink",
+  "version": "1.0.0",
+  "main": "service-worker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ally-Ismael/QuickLink.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ally-Ismael/QuickLink/issues"
+  },
+  "homepage": "https://github.com/Ally-Ismael/QuickLink#readme",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "openai": "^5.13.1"
+  }
+}
