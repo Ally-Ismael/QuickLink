@@ -48,6 +48,17 @@
       background: #d65a0d;
     }
   </style>
+	<script src="auth.js"></script>
+	<script>if(!QLAuth.requireAuth('login.html')){}</script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function(){
+			if (QLAuth.isAuthenticated()) {
+				const user = QLAuth.getUser();
+				const h = document.querySelector('h1');
+				if (h && user && user.name) { h.textContent = '💼 Career Guidance — ' + user.name; }
+			}
+		});
+	</script>
 </head>
 <body>
   <div class="container">

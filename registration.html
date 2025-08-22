@@ -259,5 +259,13 @@
             }
         }
     </script>
+    <script src="auth.js"></script>
+    <script>
+        document.getElementById('continue-btn').addEventListener('click', function(e) {
+            const name = document.getElementById('user-name').value.trim();
+            if (!name) { e.preventDefault(); return; }
+            QLAuth.login(name);
+        });
+    </script>
 </body>
 </html>
