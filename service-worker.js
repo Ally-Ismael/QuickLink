@@ -2,7 +2,17 @@ const CACHE_NAME = 'quicklink-nvp-v1';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
-  './manifest.webmanifest'
+  './manifest.webmanifest',
+  './auth.js',
+  './login.html',
+  './registration.html',
+  './main-menu.html',
+  './query.html',
+  './response.html',
+  './subject-tutoring.html',
+  './exam-preparation.html',
+  './career-guidance.html',
+  './language-learning.html'
 ];
 
 self.addEventListener('install', (event) => {

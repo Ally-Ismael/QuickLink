@@ -228,6 +228,17 @@
             color: #a0aec0;
         }
     </style>
+	<script src="auth.js"></script>
+	<script>if(!QLAuth.requireAuth('login.html')){}</script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function(){
+			if (QLAuth.isAuthenticated()) {
+				const user = QLAuth.getUser();
+				const g = document.getElementById('user-greeting');
+				if (g && user && user.name) { g.textContent = '👋 ' + user.name; }
+			}
+		});
+	</script>
 </head>
 <body>
     <div class="container">
@@ -238,7 +249,7 @@
                     <h1>QuickLink AI</h1>
                     <p>USSD Voice Assistant</p>
                 </div>
-                <div class="phone-icon">📞</div>
+                <div class="phone-icon" id="user-greeting">📞</div>
             </div>
         </div>
 

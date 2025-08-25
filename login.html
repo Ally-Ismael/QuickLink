@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>QuickLink AI - Login</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		}
+		
+		body {
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			min-height: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 20px;
+		}
+		
+		.container {
+			max-width: 400px;
+			width: 100%;
+			background: white;
+			border-radius: 16px;
+			box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+			overflow: hidden;
+		}
+		
+		.header {
+			background: linear-gradient(90deg, #4285f4, #9b72cb);
+			color: white;
+			padding: 24px;
+		}
+		
+		.header-content {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		
+		.header h1 {
+			font-size: 24px;
+			font-weight: 700;
+		}
+		
+		.header p {
+			font-size: 14px;
+			opacity: 0.9;
+		}
+		
+		.phone-icon {
+			font-size: 32px;
+		}
+		
+		.progress {
+			background: #f5f5f5;
+			padding: 12px 24px;
+		}
+		
+		.progress-text {
+			font-size: 12px;
+			color: #666;
+			margin-bottom: 8px;
+		}
+		
+		.progress-bar {
+			width: 100%;
+			height: 4px;
+			background: #ddd;
+			border-radius: 2px;
+			overflow: hidden;
+		}
+		
+		.progress-fill {
+			height: 100%;
+			background: #4285f4;
+			width: 62.5%;
+		}
+		
+		.content {
+			padding: 24px;
+		}
+		
+		.mb-6 {
+			margin-bottom: 24px;
+		}
+		
+		.mb-4 {
+			margin-bottom: 16px;
+		}
+		
+		.text-xl {
+			font-size: 20px;
+		}
+		
+		.font-bold {
+			font-weight: 700;
+		}
+		
+		.block {
+			display: block;
+		}
+		
+		.text-sm {
+			font-size: 14px;
+		}
+		
+		.font-medium {
+			font-weight: 500;
+		}
+		
+		.text-gray-700 {
+			color: #4a5568;
+		}
+		
+		.input-field {
+			width: 100%;
+			padding: 12px;
+			border: 1px solid #e2e8f0;
+			border-radius: 8px;
+			font-size: 16px;
+			margin-top: 8px;
+		}
+		
+		.input-field:focus {
+			outline: none;
+			border-color: #4285f4;
+			box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+		}
+		
+		.btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			padding: 12px 24px;
+			border-radius: 8px;
+			font-weight: 500;
+			cursor: pointer;
+			transition: all 0.2s;
+			border: none;
+			width: 100%;
+			background: #4285f4;
+			color: white;
+		}
+		
+		.btn:hover {
+			background: #3367d6;
+		}
+		
+		.btn:disabled {
+			background: #a0aec0;
+			cursor: not-allowed;
+		}
+		
+		.footer {
+			background: #f7fafc;
+			padding: 16px;
+			text-align: center;
+			font-size: 12px;
+			color: #a0aec0;
+		}
+	</style>
+	<script src="auth.js"></script>
+</head>
+<body>
+	<div class="container">
+		<!-- Header -->
+		<div class="header">
+			<div class="header-content">
+				<div>
+					<h1>QuickLink AI</h1>
+					<p>USSD Voice Assistant</p>
+				</div>
+				<div class="phone-icon">📞</div>
+			</div>
+		</div>
+
+		<!-- Progress Indicator -->
+		<div class="progress">
+			<div class="progress-text">Step 5 of 8</div>
+			<div class="progress-bar">
+				<div class="progress-fill"></div>
+			</div>
+		</div>
+
+		<!-- Content -->
+		<div class="content">
+			<h2 class="text-xl font-bold mb-4">Welcome back! Please sign in</h2>
+			<div class="mb-4">
+				<label class="block text-sm font-medium text-gray-700 mb-2">
+					What's your name?
+				</label>
+				<input type="text" id="login-name" placeholder="Enter your name" class="input-field" oninput="checkLogin()" />
+			</div>
+			<a href="main-menu.html" id="login-btn" class="btn" style="pointer-events: none; opacity: 0.5;">Sign In</a>
+		</div>
+
+		<!-- Footer -->
+		<div class="footer">
+			Demo for NVP Presentation • No Internet Required
+		</div>
+	</div>
+
+	<script>
+		function checkLogin() {
+			const name = document.getElementById('login-name').value.trim();
+			const btn = document.getElementById('login-btn');
+			btn.style.pointerEvents = name ? 'auto' : 'none';
+			btn.style.opacity = name ? '1' : '0.5';
+		}
+
+		document.getElementById('login-btn').addEventListener('click', function(e) {
+			const name = document.getElementById('login-name').value.trim();
+			if (!name) { e.preventDefault(); return; }
+			QLAuth.login(name);
+		});
+	</script>
+</body>
+</html>
