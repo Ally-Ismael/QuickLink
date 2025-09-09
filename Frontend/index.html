@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickLink AI - Chat</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; }
+    body {
+      background: #f9fafb;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      border-left: 1px solid #e5e7eb;
+      border-right: 1px solid #e5e7eb;
+    }
+    /* Header */
+    .header {
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header h1 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #111827;
+    }
+    .header p {
+      font-size: 13px;
+      color: #6b7280;
+    }
+    .phone-icon { font-size: 22px; }
+
+    /* Chat content */
+    .content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: #f9fafb;
+    }
+    .message {
+      max-width: 75%;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      line-height: 1.5;
+      font-size: 15px;
+      white-space: pre-wrap;
+    }
+    .user-msg {
+      margin-left: auto;
+      background: #dbeafe;
+      color: #1e3a8a;
+    }
+    .ai-msg {
+      margin-right: auto;
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    /* Typing indicator */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      font-size: 14px;
+      color: #6b7280;
+    }
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid #9ca3af;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Input area */
+    .input-area {
+      display: flex;
+      padding: 15px;
+      background: #fff;
+      border-top: 1px solid #e5e7eb;
+    }
+    #question {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 9999px;
+      font-size: 15px;
+      outline: none;
+    }
+    #question:focus {
+      border-color: #2563eb;
+    }
+    button {
+      margin-left: 10px;
+      padding: 12px 20px;
+      background: #2563eb;
+      border: none;
+      border-radius: 9999px;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    button:hover { background: #1d4ed8; }
+    .speak-btn {
+      background: transparent;
+      color: #2563eb;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+    .speak-btn:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div>
+        <h1>QuickLink AI</h1>
+        <p>Powered by Gemini</p>
+      </div>
+      <div class="phone-icon">📞</div>
+    </div>
+
+    <!-- Chat Content -->
+    <div id="chat-box" class="content"></div>
+
+    <!-- Input Area -->
+    <div class="input-area">
+      <input id="question" type="text" placeholder="Message QuickLink AI..." onkeypress="if(event.key === 'Enter'){ askGemini(); }" />
+      <button onclick="askGemini()">➤</button>
+    </div>
+  </div>
+
+  <script>
+    async function askGemini() {
+      const questionInput = document.getElementById("question");
+      const chatBox = document.getElementById("chat-box");
+      const question = questionInput.value.trim();
+      if (!question) return;
+
+      // Show user question
+      const qDiv = document.createElement("div");
+      qDiv.classList.add("message", "user-msg");
+      qDiv.textContent = question;
+      chatBox.appendChild(qDiv);
+      questionInput.value = "";
+
+      // Typing indicator
+      const typingDiv = document.createElement("div");
+      typingDiv.classList.add("typing-indicator");
+      typingDiv.innerHTML = '<div class="spinner"></div><span>AI is thinking...</span>';
+      chatBox.appendChild(typingDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      try {
+        const res = await fetch("http://127.0.0.1:5000/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question })
+        });
+
+        const data = await res.json();
+        chatBox.removeChild(typingDiv);
+
+        // AI response
+        const rDiv = document.createElement("div");
+        rDiv.classList.add("message", "ai-msg");
+        rDiv.innerHTML = `${data.answer || data.error}<br><button class="speak-btn" onclick="speakText(\`${data.answer || data.error}\`)">🔊 Speak</button>`;
+        chatBox.appendChild(rDiv);
+      } catch (err) {
+        chatBox.removeChild(typingDiv);
+        const errorDiv = document.createElement("div");
+        errorDiv.classList.add("message", "ai-msg");
+        errorDiv.textContent = "❌ Could not connect to server.";
+        chatBox.appendChild(errorDiv);
+      }
+
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    async function speakText(text) {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/speak", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text })
+        });
+
+        if (!response.ok) {
+          alert("Error with speech service");
+          return;
+        }
+
+        const blob = await response.blob();
+        const audioUrl = URL.createObjectURL(blob);
+        const audio = new Audio(audioUrl);
+        audio.play();
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
+    }
+  </script>
+</body>
+</html>
